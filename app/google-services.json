@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "233767791019",
+    "project_id": "feelsaveapp",
+    "storage_bucket": "feelsaveapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233767791019:android:24757449ec1e85fcf80aee",
+        "android_client_info": {
+          "package_name": "com.example.feelsave"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRQ2UNqF99OHM5MDlHn-SB6FycC7HXxPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

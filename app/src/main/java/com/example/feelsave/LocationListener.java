@@ -1,20 +1,18 @@
 package com.example.feelsave;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.Manifest;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -22,26 +20,26 @@ public class LocationListener implements android.location.LocationListener {
 
     private Context context;
     private Activity activity;
-    LocationManager locationManager;
+    private LocationManager locationManager;
+    private ArrayList<String> locationsList;
+    private FireBaseHelper fireBaseHelper;
+
+
 
     public LocationListener(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
+        this.locationsList = new ArrayList<>();
+        this.fireBaseHelper = ObjectManager.getInstance(context).getFireBaseHelperInstance();
 
     }
 
-    public void checkLocationPermisson(Activity activity){
-        if (ContextCompat.checkSelfPermission(activity,  Manifest.permission.ACCESS_FINE_LOCATION)
-        != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(activity,new String[]{
-                Manifest.permission.ACCESS_FINE_LOCATION
-            },100);
-        }
-    }
 
+
+    @SuppressLint("MissingPermission") //Permissions werden in einer anderen Klasse gecheckt.
     public void getLocation() {
         try {
-            locationManager= (LocationManager)activity.getApplicationContext().getSystemService(Context.LOCATION_SERVICE); //getAppContext kann nur in einer Activity benutzt werden
+            locationManager= (LocationManager)activity.getSystemService(Context.LOCATION_SERVICE); //getAppContext kann nur in einer Activity benutzt werden
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,this); //this = LocationListener vlt muss der in die MainActivity
         }
         catch (Exception e){
@@ -56,10 +54,12 @@ public class LocationListener implements android.location.LocationListener {
         Toast.makeText(context,""+location.getLatitude()+""+location.getLongitude(),Toast.LENGTH_SHORT).show();
 
         try {
-            Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-            String address = addresses.get(0).getAddressLine(0);
-            Log.d("LocationClass", "Adresse: "+address);
+            Geocoder geocoder = new Geocoder(context, Locale.getDefault()); //GeoCoder übersetzt Koordinaten zu Adressen
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1); //Von hier nimmt er die Addressen
+            String address = addresses.get(0).getAddressLine(0); //Greift auf die erste Adresse der Liste zu
+            locationsList.add(address);
+            Log.d("LocationClass", "Adresse: "+address + "Bisherige Adressen" + locationsList);
+            fireBaseHelper.addLocationToDB(address);
 
         }catch (Exception e){
             e.printStackTrace();

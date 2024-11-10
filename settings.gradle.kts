@@ -5,7 +5,9 @@ pluginManagement {
                 includeGroupByRegex("com\\.android.*")
                 includeGroupByRegex("com\\.google.*")
                 includeGroupByRegex("androidx.*")
+
             }
+
         }
         mavenCentral()
         gradlePluginPortal()
@@ -21,4 +23,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "FeelSave"
 include(":app")
- 
+
