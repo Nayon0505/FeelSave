@@ -100,4 +100,8 @@ public class eContacts extends AppCompatActivity {
         }
 
     }
+
+    public void onBackPressed(View view) {
+        finish();
+    }
 }

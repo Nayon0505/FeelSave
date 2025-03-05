@@ -1,9 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.FeelSave" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Globale Schriftgrößen anpassen -->
+        <item name="textAppearanceHeadlineMedium">@style/CustomHeadlineMedium</item>
+        <item name="textAppearanceBodyLarge">@style/CustomBodyLarge</item>
+
+
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/onSecondary</item>
+
+        <item name="android:windowBackground">@color/background</item>
+        <item name="colorOnBackground">@color/onBackground</item>
+
+
     </style>
+
+
 
     <style name="Theme.FeelSave" parent="Base.Theme.FeelSave" />
 </resources>

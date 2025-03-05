@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+        <color name="primary">#40AEFF</color>
+        <color name="onPrimary">#000000</color>
+
+        <color name="secondary">#03DAC6</color>
+        <color name="onSecondary">#000000</color>
+
+        <color name="background">#2A2A2A</color>
+        <color name="onBackground">#FFFFFF</color>
+
+        <color name="surface">#1E1E1E</color>
+        <color name="onSurface">#FFFFFF</color>
+
+        <color name="red">#D52222</color>
+
 </resources>
+
+

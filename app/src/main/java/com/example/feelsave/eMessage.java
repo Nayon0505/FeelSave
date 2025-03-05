@@ -50,8 +50,9 @@ public class eMessage extends AppCompatActivity {
         emergencyMessage = emergencyMessageInput.getText().toString();
         messageHandler.setMessageText(emergencyMessage);
 
-
-
+    }
+    public void onBackPressed(View view) {
+        finish();
     }
 
 }

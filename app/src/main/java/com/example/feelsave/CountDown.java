@@ -1,11 +1,15 @@
 package com.example.feelsave;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 public class CountDown {
 
@@ -17,10 +21,15 @@ public class CountDown {
             messageHandler = MessageHandler.getInstance(context);
         }
 
-    public void startCountDown(int milliSecs, int countDownInterval, Button exitButton, TextView timerText, SafeMode safeMode){ //Man braucht SafeMode hier wenn man den Kosntrukter freihalten will, sonst gettet er den Safemode eines falschen Objekts
+    public void startCountDown(int milliSecs, int countDownInterval, Button exitButton, TextView timerText, ProgressBar progressBar, SafeMode safeMode){ //Man braucht SafeMode hier wenn man den Kosntrukter freihalten will, sonst gettet er den Safemode eines falschen Objekts
         countDownTimer = new CountDownTimer(milliSecs, countDownInterval) {
             public void onTick(long millisUntilFinished) {
-                timerText.setText("seconds remaining: " + millisUntilFinished / 1000);
+                String timeText = "Safe-Modus in: " + (millisUntilFinished / 1000) + "s";
+                timerText.setText(timeText);
+                timerText.setAlpha(0f);
+                timerText.animate().alpha(1f).setDuration(300).start();
+                int progress = (int)(milliSecs - millisUntilFinished);
+                progressBar.setProgress(progress);
             }
 
             @Override
@@ -29,6 +38,7 @@ public class CountDown {
                 if(!safeMode.getSafeModeStatus()) {
                     handleSafeModeActivation(safeMode);
                     exitButton.setVisibility(View.VISIBLE);
+                    timerText.setText("Sie befinden sich im Safemode.");
                     Log.d("Class: CountDown","SafeMode entered. safemode:"+safeMode.getSafeModeStatus());
 
                 }
@@ -40,11 +50,13 @@ public class CountDown {
 
     }
 
-    public void startEmergencyCountdown(int milliSecs, int countDownInterval, TextView timerText, SafeMode safeMode, Context context) {
+    public void startEmergencyCountdown(int milliSecs, int countDownInterval, TextView timerText,ProgressBar progressBar, SafeMode safeMode, Context context) {
         countDownTimer = new CountDownTimer(milliSecs, countDownInterval) {
             public void onTick(long millisUntilFinished) {
-                timerText.setText("Emergency in: " + millisUntilFinished / 1000);
-            }
+                timerText.setText("Notfall in: " + millisUntilFinished / 1000);
+                int progress = (int)(milliSecs - millisUntilFinished);
+                progressBar.setProgress(progress);
+       }
 
             @Override
             public void onFinish() {
@@ -63,9 +75,12 @@ public class CountDown {
             Log.d("SafeMode Status", " handleSafeModeActication called... ");
         }
 
-    public void cancelCountDown() {
+    public void cancelCountDown(ProgressBar progressBar, TextView timerText) {
         if (countDownTimer != null) {
             countDownTimer.cancel();
+            progressBar.setProgress(0);
+            timerText.setText("");
+
             Log.d("Countdown", "Countdown canceled.");
             }
         }

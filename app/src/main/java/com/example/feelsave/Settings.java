@@ -33,4 +33,9 @@ public class Settings extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void onBackPressed(View view) {
+        finish();
+    }
+
+
 }

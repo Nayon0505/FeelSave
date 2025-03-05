@@ -2,7 +2,11 @@ package com.example.feelsave;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -42,9 +46,13 @@ public class MainActivity extends AppCompatActivity {
         safeMode = ObjectManager.getInstance(this).getSafeModeInstance();
         locationListener = new LocationListener(this,this);
         permissionHandler = new PermissionHandler(this, this);
-        buttonHandler = new ButtonHandler(findViewById(R.id.sosButton), findViewById(R.id.timerText),findViewById(R.id.exitSafeModeButton), safeMode, this);
+        buttonHandler = new ButtonHandler(findViewById(R.id.sosButton), findViewById(R.id.timerText),findViewById(R.id.progressBar),findViewById(R.id.exitSafeModeButton), safeMode, this);
         fireBaseHelper = new FireBaseHelper();
-        emergencyMessageText = findViewById(R.id.emergencyMessageDisplayTV);
+        Button infoButton = findViewById(R.id.infoButton);
+        infoButton.setOnClickListener(v -> {
+            InfoDialogHelper.showAppInfo(MainActivity.this);
+        });
+
         //fireBaseHelper.readEmergencyMessageFromDB(emergencyMessageText);
         //emergency = new Emergency(this);
 

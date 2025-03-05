@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,41 +8,70 @@
     android:layout_height="match_parent"
     tools:context=".Settings">
 
-    <TextView
-        android:id="@+id/textView2"
+    <!-- Zurück Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/backButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="174dp"
-        android:text="Einstellungen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Zurück"
+        android:textAllCaps="false"
+        android:textColor="?attr/colorOnBackground"
+        android:onClick="onBackPressed"
+        app:icon="@drawable/ic_arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="?attr/colorPrimaryVariant"
+        app:strokeWidth="1dp" />
 
-    <Button
+    <!-- Titel "Einstellungen" -->
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/TextAppearance.Material3.HeadlineMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Einstellungen"
+        android:textColor="?attr/colorOnBackground"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintHorizontal_bias="0.5" />
+
+    <!-- Notfallkontakte Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/emergencyContactsButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="290dp"
         android:layout_height="81dp"
-        android:layout_marginTop="168dp"
+        android:layout_marginTop="32dp"
         android:onClick="launchEmergencyContactsActivity"
         android:text="Notfallkontakte"
+        android:textColor="@android:color/white"
+        app:backgroundTint="?attr/colorPrimary"
+        app:cornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/textView2" />
 
-    <Button
+    <!-- Notfallnachricht Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/emergencyMessageButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="281dp"
         android:layout_height="74dp"
         android:layout_marginTop="28dp"
         android:onClick="launchEmergencyMessageActivity"
         android:text="Notfallnachricht"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@android:color/white"
+        app:backgroundTint="?attr/colorSecondary"
+        app:cornerRadius="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emergencyContactsButton"
-        app:layout_constraintVertical_bias="0.294" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emergencyContactsButton"
+        app:layout_constraintHorizontal_bias="0.5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

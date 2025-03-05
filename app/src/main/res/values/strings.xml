@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FeelSave</string>
+    <string name="einstellungen">Einstellungen</string>
+    <string name="hinzufuegen">Hinzufügen</string>
+    <string name="zurueck">Zurück</string>
+    <string name="notfallkontakte">Notfallkontakte</string>
+    <string name="name">Name</string>
+    <string name="nummer">Nummer</string>
+    <string name="x">X</string>
+    <string name="zeit_bis_zum_safe_modus">Zeit bis zum Safe Modus</string>
+    <string name="sos">SOS</string>
+    <string name="info">Info</string>
 </resources>

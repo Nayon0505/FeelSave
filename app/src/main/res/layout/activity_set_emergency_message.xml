@@ -1,42 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:contentDescription="@string/app_name"
+    android:layout_marginTop="16dp"
     tools:context=".eMessage">
 
-    <MultiAutoCompleteTextView
-        android:id="@+id/emergencyMessageInputField"
-        android:layout_width="253dp"
-        android:layout_height="209dp"
-        android:layout_marginTop="112dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/backButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Zurück"
+        android:textAllCaps="false"
+        android:textColor="?attr/colorOnBackground"
+        android:onClick="onBackPressed"
+        app:icon="@drawable/ic_arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="?attr/colorPrimaryVariant"
+        app:strokeWidth="1dp" />
 
+    <!-- Titel "Notfallnachricht bearbeiten" -->
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewTitle"
+        style="@style/TextAppearance.Material3.HeadlineMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="178dp"
-        android:text="Bearbeite deine Notfallnachricht"
+        android:layout_marginTop="16dp"
+        android:text="Notfallnachricht bearbeiten"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/backButton" />
 
-    <Button
+    <!-- Eingabefeld für Notfallnachricht -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/emergencyMessageInputLayout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Notfallnachricht"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emergencyMessageInputField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:maxLines="10"
+            android:minLines="5"
+            android:importantForAccessibility="yes"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Speichern Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/saveNewEmergencyMessageButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
         android:onClick="safeInput"
         android:text="Speichern"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/emergencyMessageInputLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emergencyMessageInputField" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- RecyclerView für Kontakte (falls benötigt) -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
