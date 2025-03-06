@@ -12,6 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.List;
+
 public class eMessage extends AppCompatActivity {
 
     private MessageHandler messageHandler;
@@ -36,17 +38,26 @@ public class eMessage extends AppCompatActivity {
         messageHandler = MessageHandler.getInstance(this);
         emergencyMessageInput = findViewById(R.id.emergencyMessageInputField);
         fireBaseHelper = new FireBaseHelper();
-        Log.d("eMessage", "Messagtext: "+ messageHandler.getMessageText());
-        emergencyMessage = emergencyMessageInput.getText().toString();
+        Log.d("eMessage", "Messagetext: "+ messageHandler.getMessageText());
 
-                emergencyMessageInput.setText(messageHandler.getMessageText());
+        fireBaseHelper.fetchEmergencyMessage1().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                String emergencyMessage = task.getResult().getValue(String.class);
+                Log.d("Firebase", "Emergency Message: " + emergencyMessage);
+            } else {
+                Log.d("Firebase", "Keine Emergency Message vorhanden.");
+            }
+        });
+
+        emergencyMessage = emergencyMessageInput.getText().toString();
+        emergencyMessageInput.setText(messageHandler.getMessageText());
 
 
 
     }
 
     public void safeInput(View view){
-       // fireBaseHelper.readEmergencyMessageFromDB(emergencyMessageInput);
+        //fireBaseHelper.readEmergencyMessageFromDB(emergencyMessageInput);
         emergencyMessage = emergencyMessageInput.getText().toString();
         messageHandler.setMessageText(emergencyMessage);
 

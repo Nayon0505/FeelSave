@@ -29,7 +29,7 @@ public class CountDown {
                 timerText.setAlpha(0f);
                 timerText.animate().alpha(1f).setDuration(300).start();
                 int progress = (int)(milliSecs - millisUntilFinished);
-                progressBar.setProgress(progress);
+                progressBar.setProgress(progress, true);
             }
 
             @Override
@@ -55,7 +55,7 @@ public class CountDown {
             public void onTick(long millisUntilFinished) {
                 timerText.setText("Notfall in: " + millisUntilFinished / 1000);
                 int progress = (int)(milliSecs - millisUntilFinished);
-                progressBar.setProgress(progress);
+                progressBar.setProgress(progress, true);
        }
 
             @Override

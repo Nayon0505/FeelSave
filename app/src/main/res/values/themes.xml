@@ -1,7 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.FeelSave" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Globale Schriftgrößen anpassen -->
+
         <item name="textAppearanceHeadlineMedium">@style/CustomHeadlineMedium</item>
         <item name="textAppearanceBodyLarge">@style/CustomBodyLarge</item>
 

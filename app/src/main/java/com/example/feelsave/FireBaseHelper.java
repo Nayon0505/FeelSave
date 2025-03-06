@@ -2,6 +2,7 @@ package com.example.feelsave;
 
 import android.util.Log;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,7 +20,6 @@ public class FireBaseHelper {
     DatabaseReference databaseReference;
 
     public FireBaseHelper() {
-        // Constructor can be used to initialize any necessary components if needed
     }
 
     public String getTime() {
@@ -93,6 +93,7 @@ public class FireBaseHelper {
         }
     }
 
+
     public void fetchContacts(FirebaseCallback callback) {
         initializeDbConection("Kontakte");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -130,6 +131,10 @@ public class FireBaseHelper {
         });
     }
 
+    public Task<DataSnapshot> fetchEmergencyMessage1() {
+        initializeDbConection("Notfallnachricht");
+        return databaseReference.get();
+    }
     public void fetchEmergencyMessage(FirebaseCallback callback) {
         initializeDbConection("Notfallnachricht");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -179,10 +184,10 @@ public class FireBaseHelper {
         });
     }
 
-    // New callback interface to differentiate between contacts and emergency messages
+
     public interface FirebaseCallback {
-        void onContactsFetched(List<contactModel> contacts); // For contacts
-        void onEmergencyMessageFetched(String emergencyMessage); // For emergency messages
+        void onContactsFetched(List<contactModel> contacts);
+        void onEmergencyMessageFetched(String emergencyMessage);
         void onLocationFetched(List<LocationModel> location);
     }
 }

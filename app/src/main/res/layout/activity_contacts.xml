@@ -56,6 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:textColor="@color/onBackground"
+            android:maxLength="8"
             android:importantForAccessibility="yes"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,8 +75,10 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/numberInput"
+            android:maxLength="13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/onBackground"
             android:inputType="phone"
             android:importantForAccessibility="yes"/>
     </com.google.android.material.textfield.TextInputLayout>

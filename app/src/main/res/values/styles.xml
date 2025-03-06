@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="CustomHeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
-        <item name="android:textSize">22sp</item> <!-- Standard war 20sp -->
+        <item name="android:textSize">22sp</item>
     </style>
 
     <style name="CustomBodyLarge" parent="TextAppearance.Material3.BodyLarge">
-        <item name="android:textSize">18sp</item> <!-- Standard war 16sp -->
+        <item name="android:textSize">18sp</item>
     </style>
 
 
