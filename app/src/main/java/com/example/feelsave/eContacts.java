@@ -1,10 +1,13 @@
 package com.example.feelsave;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +33,8 @@ public class eContacts extends AppCompatActivity {
     private String number;
     private FireBaseHelper fireBaseHelper;
 
+    private Button selectContactButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,21 +45,21 @@ public class eContacts extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         fireBaseHelper = new FireBaseHelper();
         recyclerView = findViewById(R.id.recycler);
         nameInput = findViewById(R.id.nameInput);
         numberInput = findViewById(R.id.numberInput);
         addButton = findViewById(R.id.addButton);
-        // Initialize data
+        selectContactButton = findViewById(R.id.selectContactButton);
+
         contactList = new ArrayList<>();
-
-        // Set up the adapter with data
         adapter = new recyclerAdapter(contactList);
-
-        // Set LayoutManager and adapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        selectContactButton.setOnClickListener(v -> {
+            // Starte den Kontakt-Picker
+            ContactPicker.pickContact(this);
+        });
 
         fireBaseHelper.fetchContacts(new FireBaseHelper.FirebaseCallback() {
             @Override
@@ -81,14 +86,31 @@ public class eContacts extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ContactPicker.PICK_CONTACT_REQUEST && resultCode == Activity.RESULT_OK) {
+            contactModel contact = ContactPicker.getContactData(data, this);
+
+            prepareContact(contact.getName(),contact.getNumber());
+            Log.d("MainActivity", "Kontakt ausgewählt: " + contact.getName() + " - " + contact.getNumber());
+        }
+    }
+
     public void addContact(View v){
         name = nameInput.getText().toString();
         number = numberInput.getText().toString();
 
-        if(contactList.size()<8) {
+        prepareContact(name, number);
+
+    }
+
+    public void prepareContact(String name, String number) {
+        int totalContacts = contactList.size();
+        if(totalContacts<8) {
             String key = fireBaseHelper.addContactsToDB(name, number);
 
-            // Add to the local list with the Firebase key
+            // Zur lokalen Liste hinzufügen
             if (key != null) {
                 contactList.add(new contactModel(name, number, key));
                 adapter.notifyItemInserted(contactList.size() - 1);
@@ -98,7 +120,6 @@ public class eContacts extends AppCompatActivity {
         else{
             Toast.makeText(this,"Zu viele Kontakte",Toast.LENGTH_SHORT).show();
         }
-
     }
 
     public void onBackPressed(View view) {

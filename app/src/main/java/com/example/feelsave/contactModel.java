@@ -1,5 +1,10 @@
 package com.example.feelsave;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.ContactsContract;
+
 public class contactModel {
 
         private String name;
@@ -13,6 +18,9 @@ public class contactModel {
         this.number = number;
         this.key = key;
     }
+
+
+
     public String getKey() {
         return key;
     }
