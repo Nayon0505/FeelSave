@@ -37,6 +37,7 @@ android {
 
 dependencies {
 
+    implementation (libs.firebase.auth)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

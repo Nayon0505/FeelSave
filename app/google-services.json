@@ -1,8 +1,9 @@
 {
   "project_info": {
     "project_number": "233767791019",
+    "firebase_url": "https://feelsaveapp-default-rtdb.firebaseio.com",
     "project_id": "feelsaveapp",
-    "storage_bucket": "feelsaveapp.appspot.com"
+    "storage_bucket": "feelsaveapp.firebasestorage.app"
   },
   "client": [
     {
