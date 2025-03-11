@@ -22,4 +22,12 @@
     <string name="remove_contact">Kontakt löschen</string>
     <string name="nameContactsListLayout">Name</string>
     <string name="phone_numberContactsLisLayout">Telefon</string>
+    <string name="infodialog_title">Mit einem Knopfdruck sicherer.\n\n</string>
+    <string name="infodialog1">1. Erlaube FeelSave alle nötigen Zugriffe!\n\n
+                               2. Wähle Notfallkontakte in den Einstellungen aus\n\n
+                               3. Personalisiere deine Notfallnachricht (oder lass sie so :))\n\n
+                               4. Halte den Button wenn du dich unsicher fühlst, nach ein Paar Sekunden geht der SaveMode an\n\n
+                               5. Lässt du nun den Finger ein Paar Sekunden vom ab, werden deine Notfallkontakte alamiert und bekommen deinen Standort \n\n
+                               6. Für mehr Infos, besuche unsere Infoseite:\n\n</string>
+    <string name="feelsaveinfolink">https://nayon0505.github.io/FeelSave-Infoseite/</string>
 </resources>
