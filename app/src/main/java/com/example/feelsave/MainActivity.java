@@ -2,10 +2,8 @@ package com.example.feelsave;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,19 +15,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private ButtonHandler buttonHandler;
     private SafeMode safeMode;
     private CountDown countDown;
     private LocationListener locationListener;
-    private PermissionHandler permissionHandler;
     private FireBaseHelper fireBaseHelper;
-    private ObjectManager objectManager;
     private TextView emergencyMessageText;
     private MessageHandler messageHandler;
-
-
-
+    private PermissionHelper permissionHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,33 +35,54 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        permissionHelper = new PermissionHelper(this);
+        permissionHelper.checkAndRequestPermissions();
+
         messageHandler = MessageHandler.getInstance(this);
-        safeMode = ObjectManager.getInstance(this).getSafeModeInstance();
-        locationListener = new LocationListener(this,this);
-        permissionHandler = new PermissionHandler(this, this);
-        buttonHandler = new ButtonHandler(findViewById(R.id.sosButton), findViewById(R.id.timerText),findViewById(R.id.progressBar),findViewById(R.id.exitSafeModeButton), safeMode, this);
+        safeMode = safeMode.getInstance(this);
+        locationListener = new LocationListener(this, this);
+        buttonHandler = new ButtonHandler(findViewById(R.id.sosButton), findViewById(R.id.timerText),
+                findViewById(R.id.progressBar), findViewById(R.id.exitSafeModeButton), safeMode, this);
         fireBaseHelper = new FireBaseHelper();
+
         Button infoButton = findViewById(R.id.infoButton);
-        infoButton.setOnClickListener(v -> {
-            InfoDialogHelper.showAppInfo(MainActivity.this);
+        infoButton.setOnClickListener(v -> InfoDialogHelper.showAppInfo(MainActivity.this));
+
+        safeMode.getSafeModeLiveData().observe(this, isActive -> {
+            if (isActive) {
+                locationListener.getLocation();
+                Log.d("MainActivity", "SafeMode aktiv: Standort-Updates gestartet");
+
+
+            } else {
+                locationListener.stopLocationUpdates();
+                Log.d("MainActivity", "SafeMode inaktiv: Standort-Updates gestoppt");
+
+
+            }
         });
-
-        //fireBaseHelper.readEmergencyMessageFromDB(emergencyMessageText);
-        //emergency = new Emergency(this);
-
-
     }
 
-    public void test(View v){
-        if(safeMode.getSafeModeStatus()) {
-            locationListener.getLocation();
 
+    public void test(View v) {
+        if (safeMode.getSafeModeStatus()) {
+            if (permissionHelper.areAllPermissionsGranted()) { // Prüft Berechtigungen vor dem Abruf
+                locationListener.getLocation();
+            } else {
+                Log.e("MainActivity", "Berechtigungen fehlen!");
+            }
         }
     }
 
-    public void launchSettings(View v){
+    public void launchSettings(View v) {
         Intent i = new Intent(this, Settings.class);
         startActivity(i);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 

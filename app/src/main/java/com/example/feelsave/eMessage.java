@@ -1,10 +1,10 @@
 package com.example.feelsave;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,16 +12,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.List;
-
 public class eMessage extends AppCompatActivity {
 
     private MessageHandler messageHandler;
     private String emergencyMessage;
     private EditText emergencyMessageInput;
     private FireBaseHelper fireBaseHelper;
-    private CountDownTimer countDownTimer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,38 +28,39 @@ public class eMessage extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-
-
         });
+
         messageHandler = MessageHandler.getInstance(this);
         emergencyMessageInput = findViewById(R.id.emergencyMessageInputField);
         fireBaseHelper = new FireBaseHelper();
-        Log.d("eMessage", "Messagetext: "+ messageHandler.getMessageText());
 
-        fireBaseHelper.fetchEmergencyMessage1().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult().exists()) {
-                String emergencyMessage = task.getResult().getValue(String.class);
-                Log.d("Firebase", "Emergency Message: " + emergencyMessage);
+        emergencyMessageInput.setText(messageHandler.getMessageText());
+        Log.d("eMessage", "Initial Message: " + messageHandler.getMessageText());
+
+        fireBaseHelper.fetchEmergencyMessage().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                String fetchedMessage = task.getResult();
+                if (fetchedMessage != null) {
+                    Log.d("Firebase", "Emergency Message: " + fetchedMessage);
+                    // Aktualisiere MessageHandler und UI, falls eine Nachricht abgerufen wurde
+                    messageHandler.setMessageText(fetchedMessage);
+                    emergencyMessageInput.setText(fetchedMessage);
+                } else {
+                    Log.d("Firebase", "Keine Emergency Message vorhanden.");
+                }
             } else {
-                Log.d("Firebase", "Keine Emergency Message vorhanden.");
+                Log.e("Firebase", "Fehler beim Abrufen der Emergency Message", task.getException());
             }
         });
-
-        emergencyMessage = emergencyMessageInput.getText().toString();
-        emergencyMessageInput.setText(messageHandler.getMessageText());
-
-
-
     }
 
-    public void safeInput(View view){
-        //fireBaseHelper.readEmergencyMessageFromDB(emergencyMessageInput);
+    public void safeInput(View view) {
         emergencyMessage = emergencyMessageInput.getText().toString();
         messageHandler.setMessageText(emergencyMessage);
-
+        Toast.makeText(this, "Nachricht gespeichert", Toast.LENGTH_SHORT).show();
     }
+
     public void onBackPressed(View view) {
         finish();
     }
-
 }

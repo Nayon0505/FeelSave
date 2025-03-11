@@ -63,7 +63,7 @@
         android:layout_width="160dp"
         android:layout_height="110dp"
         android:layout_marginBottom="8dp"
-        android:text="SOS"
+        android:text="@string/sosbuttonText"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"

@@ -37,6 +37,7 @@ android {
 
 dependencies {
 
+    implementation(libs.play.services.location)
     implementation (libs.firebase.auth)
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -47,4 +48,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }

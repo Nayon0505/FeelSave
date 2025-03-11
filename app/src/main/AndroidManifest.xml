@@ -2,25 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Grobe Location -->
+    <!-- Berechtigungen -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- SMS-Berechtigung -->
-    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <uses-feature
-        android:name="android.hardware.telephony"
-        android:required="false" /> <!-- Nur für Android 9 und höher, für den Fall, dass du Hintergrundstandort brauchst -->
-    <uses-permission
-        android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
-        android:maxSdkVersion="30" /> <!-- Wenn du die Standortgenauigkeit weiter optimieren möchtest -->
+    <!-- Gerätefunktionen -->
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" />
-    <uses-permission android:name="android.permission.INTERNET"/>
 
-
+    <!-- Application Settings -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -31,24 +26,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FeelSave"
         tools:targetApi="31">
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".eContacts"
-            android:exported="false" />
-        <activity
-            android:name=".eMessage"
-            android:exported="false" />
-        <activity
-            android:name=".Settings"
-            android:exported="false" />
-        <activity
-            android:name=".UserAuth"
-            android:exported="true">
+
+        <!-- Activities -->
+        <activity android:name=".MainActivity" android:exported="false" />
+        <activity android:name=".eContacts" android:exported="false" />
+        <activity android:name=".eMessage" android:exported="false" />
+        <activity android:name=".Settings" android:exported="false" />
+
+        <!-- User Authentication Activity -->
+        <activity android:name=".UserAuth" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

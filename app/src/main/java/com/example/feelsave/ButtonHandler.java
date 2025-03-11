@@ -12,10 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ButtonHandler {
-    private Button button;
+    private final Button button;
     private Boolean sosButtonPressed = false;
-    private TextView timerText;
-    private CountDown countDown;
+    private final TextView timerText;
+    private final CountDown countDown;
     private MessageHandler messageHandler;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -71,6 +71,9 @@ public class ButtonHandler {
         exitSafeModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                messageHandler = MessageHandler.getInstance(context);
+                messageHandler.stopSendingLocationUpdates();
+                Log.d("MainActivity", "SafeMode inaktiv: Standort-SMS-Versand gestoppt");
                 safeMode.exitSafeMode();
                 countDown.cancelCountDown(progressBar, timerText);
                 exitSafeModeButton.setVisibility(View.INVISIBLE);

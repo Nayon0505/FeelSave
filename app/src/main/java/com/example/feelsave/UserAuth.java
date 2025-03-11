@@ -23,7 +23,6 @@ public class UserAuth extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_auth);
 
-        // Firebase Auth initialisieren
         firebaseAuth = FirebaseAuth.getInstance();
 
         emailInput = findViewById(R.id.emailInput);
@@ -75,12 +74,12 @@ public class UserAuth extends AppCompatActivity {
                         Toast.makeText(this, "Login erfolgreich", Toast.LENGTH_SHORT).show();
                         checkUserStatus();
                     } else {
-                        Toast.makeText(this, "Fehler: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Nutzer existier nicht", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void logoutUser() {
+    public void logoutUser() {
         firebaseAuth.signOut();
         Toast.makeText(this, "Abgemeldet", Toast.LENGTH_SHORT).show();
         checkUserStatus();

@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Zurück"
+        android:text="@string/zurück"
         android:textAllCaps="false"
         android:textColor="?attr/colorOnBackground"
         android:onClick="onBackPressed"
@@ -32,7 +32,7 @@
         style="@style/TextAppearance.Material3.HeadlineMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Einstellungen"
+        android:text="@string/einstellungen"
         android:textColor="?attr/colorOnBackground"
         android:layout_marginTop="40dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,6 @@
         app:layout_constraintTop_toBottomOf="@id/backButton"
         app:layout_constraintHorizontal_bias="0.5" />
 
-    <!-- Notfallkontakte Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/emergencyContactsButton"
         style="@style/Widget.Material3.Button.OutlinedButton"
@@ -48,7 +47,7 @@
         android:layout_height="81dp"
         android:layout_marginTop="32dp"
         android:onClick="launchEmergencyContactsActivity"
-        android:text="Notfallkontakte"
+        android:text="@string/notfallkontakte"
         android:textColor="@android:color/white"
         app:backgroundTint="?attr/colorPrimary"
         app:cornerRadius="16dp"
@@ -65,7 +64,7 @@
         android:layout_height="74dp"
         android:layout_marginTop="28dp"
         android:onClick="launchEmergencyMessageActivity"
-        android:text="Notfallnachricht"
+        android:text="@string/notfallnachricht"
         android:textColor="@android:color/white"
         app:backgroundTint="?attr/colorSecondary"
         app:cornerRadius="16dp"
@@ -73,5 +72,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emergencyContactsButton"
         app:layout_constraintHorizontal_bias="0.5" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logoutButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="219dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="256dp"
+        android:text="@string/abmelden"
+        android:textColor="@android:color/white"
+        app:backgroundTint="?attr/colorTertiary"
+        app:cornerRadius="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emergencyMessageButton"
+        app:layout_constraintVertical_bias="0.155" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,7 +24,6 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
 
     }
 
-    // ViewHolder class that holds references to item views
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewName;
         public TextView textViewPhone;
@@ -41,7 +40,6 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the item layout
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contactlistlayout, parent, false);
         return new ViewHolder(view);
     }
@@ -52,21 +50,16 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
         holder.textViewName.setText(contact.getName());
         holder.textViewPhone.setText(contact.getNumber());
 
-        // Set up click listener for the remove button
         holder.buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int currentPosition = holder.getAdapterPosition();
 
-                // Ensure the current position is valid and within bounds
                 if (currentPosition != RecyclerView.NO_POSITION && currentPosition < contactList.size()) {
-                    // Retrieve key from the contact at this position
                     String key = contactList.get(currentPosition).getKey();
 
-                    // Delete from Firebase
-                    fireBaseHelper.deleteContactFromDB(key);
+                    fireBaseHelper.deleteContact(key);
 
-                    // Remove from local list and update RecyclerView
                     contactList.remove(currentPosition);
                     notifyItemRemoved(currentPosition);
                     notifyItemRangeChanged(currentPosition, contactList.size());

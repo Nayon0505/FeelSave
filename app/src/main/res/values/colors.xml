@@ -9,8 +9,9 @@
         <color name="background">#2A2A2A</color>
         <color name="onBackground">#FFFFFF</color>
 
-        <color name="surface">#1E1E1E</color>
-        <color name="onSurface">#FFFFFF</color>
+        <color name="editTextHint">#837A7A</color>
+        <color name="black">#000000</color>
+
 
         <color name="red">#D52222</color>
 

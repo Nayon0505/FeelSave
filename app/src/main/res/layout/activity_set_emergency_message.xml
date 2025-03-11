@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Zurück"
+        android:text="@string/zurück"
         android:textAllCaps="false"
         android:textColor="?attr/colorOnBackground"
         android:onClick="onBackPressed"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Notfallnachricht bearbeiten"
+        android:text="@string/notfallnachricht_bearbeiten"
         android:textColor="@color/onBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,8 @@
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Notfallnachricht"
+        android:textColorHint="@color/editTextHint"
+        android:hint="@string/notfallnachricht"
         app:layout_constraintTop_toBottomOf="@id/textViewTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,15 +66,15 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveNewEmergencyMessageButton"
         style="@style/Widget.Material3.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="178dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
         android:onClick="safeInput"
-        android:text="Speichern"
+        android:text="@string/speichern"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/emergencyMessageInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emergencyMessageInputLayout" />
 
     <!-- RecyclerView für Kontakte (falls benötigt) -->
 

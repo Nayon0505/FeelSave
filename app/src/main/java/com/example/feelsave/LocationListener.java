@@ -5,90 +5,97 @@ import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.LocationManager;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class LocationListener implements android.location.LocationListener {
+public class LocationListener {
 
-    private Context context;
-    private Activity activity;
-    private LocationManager locationManager;
-    private ArrayList<String> locationsList;
-    private FireBaseHelper fireBaseHelper;
+    private final Context context;
+    private final Activity activity;
+    private final ArrayList<String> locationsList;
+    private final FireBaseHelper fireBaseHelper;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
 
-
-
-    public LocationListener(Context context, Activity activity){
+    public LocationListener(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
         this.locationsList = new ArrayList<>();
-        this.fireBaseHelper = ObjectManager.getInstance(context).getFireBaseHelperInstance();
-
+        this.fireBaseHelper = new FireBaseHelper();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
     }
 
-
-
-    @SuppressLint("MissingPermission") //Permissions werden in einer anderen Klasse gecheckt.
+    @SuppressLint("MissingPermission") // Berechtigungen werden in einer anderen Klasse überprüft
     public void getLocation() {
+        Log.d("LocationListener", "getLocation() wurde aufgerufen");
+
+        LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
+                .setMinUpdateIntervalMillis(3000)
+                .build();
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                if (locationResult != null && !locationResult.getLocations().isEmpty()) {
+                    android.location.Location location = locationResult.getLastLocation();
+                    handleLocationUpdate(location);
+                }
+            }
+        };
+
+        // Standortupdates anfordern
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+        Log.d("LocationListener", "Standort abrufen erfolgreich");
+    }
+
+    private void handleLocationUpdate(android.location.Location location) {
+        // Standort anzeigen
+        Toast.makeText(context, "Standort: " + location.getLatitude() + ", " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+
         try {
-            locationManager= (LocationManager)activity.getSystemService(Context.LOCATION_SERVICE); //getAppContext kann nur in einer Activity benutzt werden
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,5,this); //this = LocationListener vlt muss der in die MainActivity
+            Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                String address = addresses.get(0).getAddressLine(0);
+                locationsList.add(address);
+                Log.d("LocationListener", "Neue Adresse: " + address + " | Bisherige Adressen: " + locationsList);
+
+                // Standort in Firebase speichern
+                fireBaseHelper.addLocation(address).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("LocationListener", "Standort erfolgreich in Firebase gespeichert.");
+                    } else {
+                        Log.e("LocationListener", "Fehler beim Speichern des Standorts in Firebase.", task.getException());
+                    }
+                });
+            } else {
+                Log.w("LocationListener", "Keine Adresse für diesen Standort gefunden.");
+            }
+        } catch (Exception e) {
+            Log.e("LocationListener", "Fehler beim Abrufen der Adresse", e);
         }
-        catch (Exception e){
-            e.printStackTrace();
+    }
+
+    // Methode zum Stoppen der Standort-Updates
+    public void stopLocationUpdates() {
+        if (locationCallback != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
+            locationCallback = null; // Optional: Rücksetzen, damit nicht versehentlich doppelt gestoppt wird
+            Log.d("LocationListener", "Standort-Updates gestoppt");
+        } else {
+            Log.d("LocationListener", "locationCallback ist null – keine Updates zu stoppen");
         }
-
-
-    }
-
-    @Override
-    public void onLocationChanged(@NonNull android.location.Location location) {
-        Toast.makeText(context,""+location.getLatitude()+""+location.getLongitude(),Toast.LENGTH_SHORT).show();
-
-        try {
-            Geocoder geocoder = new Geocoder(context, Locale.getDefault()); //GeoCoder übersetzt Koordinaten zu Adressen
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1); //Von hier nimmt er die Addressen
-            String address = addresses.get(0).getAddressLine(0); //Greift auf die erste Adresse der Liste zu
-            locationsList.add(address);
-            Log.d("LocationClass", "Adresse: "+address + "Bisherige Adressen" + locationsList);
-            fireBaseHelper.addLocationToDB(address);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onLocationChanged(@NonNull List<android.location.Location> locations) {
-        android.location.LocationListener.super.onLocationChanged(locations);
-    }
-
-    @Override
-    public void onFlushComplete(int requestCode) {
-        android.location.LocationListener.super.onFlushComplete(requestCode);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        android.location.LocationListener.super.onStatusChanged(provider, status, extras);
-    }
-
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-        android.location.LocationListener.super.onProviderEnabled(provider);
-    }
-
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
-        android.location.LocationListener.super.onProviderDisabled(provider);
     }
 }

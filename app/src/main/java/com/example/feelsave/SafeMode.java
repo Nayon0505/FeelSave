@@ -1,30 +1,46 @@
 package com.example.feelsave;
 
+import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 public class SafeMode {
+    private static SafeMode instance;
 
-    private boolean safeModeStatus;
 
 
-    public SafeMode(){
+    private final MutableLiveData<Boolean> safeModeStatus = new MutableLiveData<>(false);
+
+    public SafeMode(Context context){
 
     }
     public boolean enterSafeMode(){
-        this.safeModeStatus = true;
+        safeModeStatus.setValue(true);
         Log.d("Class: SafeMode", "SafeMode: " + safeModeStatus);
-        return safeModeStatus;
+        return true;
     }
     public boolean exitSafeMode(){
-        this.safeModeStatus = false;
+        safeModeStatus.setValue(false);
         Log.d("Class: SafeMode", "SafeMode: " + safeModeStatus);
-        return safeModeStatus;
+        return false;
     }
 
     public boolean getSafeModeStatus() {
-        return safeModeStatus;
+        Boolean status = safeModeStatus.getValue();
+        return status != null && status;
     }
 
+    public LiveData<Boolean> getSafeModeLiveData() {
+        return safeModeStatus;
+    }
+    public static synchronized SafeMode getInstance(Context context) {
+        if (instance == null) {
+            instance = new SafeMode(context);
+        }
+        return instance;
+    }
 
 
 }

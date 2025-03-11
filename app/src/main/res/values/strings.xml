@@ -2,12 +2,24 @@
     <string name="app_name">FeelSave</string>
     <string name="einstellungen">Einstellungen</string>
     <string name="hinzufuegen">Hinzufügen</string>
-    <string name="zurueck">Zurück</string>
     <string name="notfallkontakte">Notfallkontakte</string>
     <string name="name">Name</string>
     <string name="nummer">Nummer</string>
     <string name="x">X</string>
     <string name="zeit_bis_zum_safe_modus">Zeit bis zum Safe Modus</string>
-    <string name="sos">SOS</string>
     <string name="info">Info</string>
+    <string name="kontakt_ausw_hlen">Kontakt auswählen</string>
+    <string name="sosbuttonText">SOS</string>
+    <string name="notfallnachricht">Notfallnachricht</string>
+    <string name="speichern">Speichern</string>
+    <string name="notfallnachricht_bearbeiten">Notfallnachricht bearbeiten</string>
+    <string name="zurück">Zurück</string>
+    <string name="abmelden">Abmelden</string>
+    <string name="email">Email</string>
+    <string name="login">Anmeldung</string>
+    <string name="passwort">Passwort</string>
+    <string name="registrieren">Registrieren</string>
+    <string name="remove_contact">Kontakt löschen</string>
+    <string name="nameContactsListLayout">Name</string>
+    <string name="phone_numberContactsLisLayout">Telefon</string>
 </resources>

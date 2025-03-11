@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/app_name"
     android:layout_marginTop="16dp"
+    android:contentDescription="@string/app_name"
     tools:context=".eContacts">
 
     <com.google.android.material.button.MaterialButton
@@ -17,10 +16,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/zurueck"
+        android:onClick="onBackPressed"
+        android:text="@string/zurück"
         android:textAllCaps="false"
         android:textColor="?attr/colorOnBackground"
-        android:onClick="onBackPressed"
         app:icon="@drawable/ic_arrow"
 
         app:layout_constraintStart_toStartOf="parent"
@@ -31,11 +30,11 @@
     <TextView
         android:id="@+id/textViewTitle"
         style="@style/TextAppearance.Material3.HeadlineMedium"
-        android:textColor="@color/onBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/notfallkontakte"
+        android:textColor="@color/onBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/backButton" />
@@ -45,20 +44,21 @@
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:hint="@string/name"
-        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColorHint="@color/editTextHint"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="yes"
             android:inputType="text"
-            android:textColor="@color/onBackground"
             android:maxLength="8"
-            android:importantForAccessibility="yes"/>
+            android:textColor="@color/onBackground" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -66,24 +66,42 @@
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/nummer"
-        app:layout_constraintTop_toBottomOf="@id/nameInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:hint="@string/nummer"
+        android:textColorHint="@color/editTextHint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/numberInput"
-            android:maxLength="13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/onBackground"
+            android:importantForAccessibility="yes"
             android:inputType="phone"
-            android:importantForAccessibility="yes"/>
+            android:maxLength="13"
+            android:textColor="@color/onBackground" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Kontakte aus Kontaktliste hinzufügen -->
+
+
     <!-- RecyclerView für die Kontakte -->
+
+    <Button
+        android:id="@+id/selectContactButton"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/kontakt_ausw_hlen"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintStart_toEndOf="@+id/addButton"
+        app:layout_constraintTop_toBottomOf="@+id/numberInputLayout" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addButton"
         style="@style/Widget.Material3.Button.OutlinedButton"
@@ -94,7 +112,7 @@
         android:text="@string/hinzufuegen"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.183"
+        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/numberInputLayout" />
 
@@ -103,20 +121,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        app:layout_constraintTop_toBottomOf="@id/addButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addButton" />
 
-    <Button
-        android:id="@+id/selectContactButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="280dp"
-        android:text="Kontakt auswählen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.85"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

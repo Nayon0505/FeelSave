@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat;
 public class CountDown {
 
     private CountDownTimer countDownTimer;
-    private MessageHandler messageHandler;
+    private final MessageHandler messageHandler;
 
 
     public CountDown(Context context){
@@ -64,7 +64,9 @@ public class CountDown {
                 // Notfallnachricht senden, wenn der SafeMode noch aktiv ist
                 if (safeMode.getSafeModeStatus()) {
                     messageHandler.sendMessage();
-                    Log.d("Emergency", "Emergency message sent.");
+                    messageHandler.startSendingLocationUpdates();
+                    Log.d("MainActivity", "SafeMode aktiv: Standort-Updates und SMS-Versand gestartet");
+                    Log.d("Emergency Countdown", "Countdown abgeschlossen");
                 }
             }
         }.start();
