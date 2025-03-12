@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         permissionHelper = new PermissionHelper(this);
-        permissionHelper.checkAndRequestPermissions();
+        permissionHelper.checkAndRequestForegroundPermissions();
 
         messageHandler = MessageHandler.getInstance(this);
         safeMode = safeMode.getInstance(this);
@@ -64,15 +64,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void test(View v) {
-        if (safeMode.getSafeModeStatus()) {
-            if (permissionHelper.areAllPermissionsGranted()) { // Prüft Berechtigungen vor dem Abruf
-                locationListener.getLocation();
-            } else {
-                Log.e("MainActivity", "Berechtigungen fehlen!");
-            }
-        }
-    }
 
     public void launchSettings(View v) {
         Intent i = new Intent(this, Settings.class);
@@ -83,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MessageHandler.getInstance(this).stopSendingLocationUpdates();
     }
 
 

@@ -126,31 +126,34 @@ public class MessageHandler {
     }
 
     public void sendMessage() {
-        if (messageText == null || messageText.isEmpty()) {
-            Log.e("MessageHandler", "Invalid message body for sending SMS.");
-            Toast.makeText(context, "Invalid message body!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        // Erneut die Standorte laden, um sicherzustellen, dass die Liste aktuell ist.
+        fireBaseHelper.fetchLocations().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<LocationModel> locations = task.getResult();
+                if (locations == null || locations.isEmpty()) {
+                    Toast.makeText(context, "Kein Standort verfügbar", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        if (locationList.isEmpty()) {
-            Toast.makeText(context, "Kein Standort verfügbar", Toast.LENGTH_SHORT).show();
-            return;
-        }
+                // Verwende den letzten Standort in der Liste
+                LocationModel lastLocation = locations.get(locations.size() - 1);
+                String fullMessage = messageText + "\n\nLetzter Standort: "
+                        + lastLocation.getAdress() + "\nZeit: " + lastLocation.getTime();
 
-        // Verwende den letzten Standort in der Liste
-        LocationModel lastLocation = locationList.get(locationList.size() - 1);
-        String fullMessage = messageText + " Letzter Standort: "
-                + lastLocation.getAdress() + " Uhrzeit: " + lastLocation.getTime();
-        for (contactModel contact : contactList) {
-            try {
-                smsManager.sendTextMessage(contact.getNumber(), scAddress, fullMessage, sentIntent, deliveryIntent);
-                Toast.makeText(context, "Nachricht gesendet!", Toast.LENGTH_SHORT).show();
-                Log.i("MessageHandler", "Message sent to: " + contact.getNumber() + " - " + fullMessage);
-            } catch (Exception e) {
-                Log.e("MessageHandler", "Error sending SMS: " + e.getMessage());
-                Toast.makeText(context, "Failed to send message!", Toast.LENGTH_SHORT).show();
+                for (contactModel contact : contactList) {
+                    try {
+                        smsManager.sendTextMessage(contact.getNumber(), scAddress, fullMessage, sentIntent, deliveryIntent);
+                        Toast.makeText(context, "Nachricht gesendet!", Toast.LENGTH_SHORT).show();
+                        Log.i("MessageHandler", "Message sent to: " + contact.getNumber() + " - " + fullMessage);
+                    } catch (Exception e) {
+                        Log.e("MessageHandler", "Error sending SMS: " + e.getMessage());
+                        Toast.makeText(context, "Failed to send message!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } else {
+                Toast.makeText(context, "Fehler beim Laden der Standorte", Toast.LENGTH_SHORT).show();
             }
-        }
+        });
     }
 
     private final Handler handler = new Handler();
@@ -162,7 +165,7 @@ public class MessageHandler {
                 @Override
                 public void run() {
                     sendMessage();
-                    handler.postDelayed(this, 10000); // Alle 10 Sekunden erneut ausführen
+                    handler.postDelayed(this, 15000); // Alle 15 Sekunden erneut ausführen
                 }
             };
             handler.post(sendLocationRunnable);
