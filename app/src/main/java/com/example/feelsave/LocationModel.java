@@ -7,6 +7,7 @@ public class LocationModel {
     private String key;
 
 
+//Das Model für das Speichern von Standorten
 
     public LocationModel(String adress, String time, String key){
         this.adress = adress;

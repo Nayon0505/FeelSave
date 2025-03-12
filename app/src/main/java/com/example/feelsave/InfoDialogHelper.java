@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+//Öffnet den Infodialog wenn man auf der MainActivity den Infobutton drückt
 public class InfoDialogHelper {
 
     public static void showAppInfo(Context context) {

@@ -11,6 +11,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+/**
+ * Der ButtonHandler steuert die Interaktionen mit dem SOS-Button
+ * und verwaltet den SafeMode sowie die zugehörigen Countdowns.
+ */
 public class ButtonHandler {
     private final Button button;
     private Boolean sosButtonPressed = false;
@@ -18,80 +22,66 @@ public class ButtonHandler {
     private final CountDown countDown;
     private MessageHandler messageHandler;
 
+    /**
+     * Konstruktor für den ButtonHandler. Hier werden UI-Elemente und Logiken verknüpft.
+     */
     @SuppressLint("ClickableViewAccessibility")
-    public ButtonHandler(Button sosButton, TextView timerText, ProgressBar progressBar, Button exitSafeModeButton, SafeMode safeMode, Context context) {
+    public ButtonHandler(
+            Button sosButton,
+            TextView timerText,
+            ProgressBar progressBar,
+            Button exitSafeModeButton,
+            SafeMode safeMode,
+            Context context
+    ) {
         this.countDown = new CountDown(context);
         this.button = sosButton;
         this.timerText = timerText;
         Animation pulse = AnimationUtils.loadAnimation(context, R.anim.pulse);
 
-
+        // Logik für das Drücken des SOS-Buttons
         this.button.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     sosButton.startAnimation(pulse);
                     sosButtonPressed = true;
-                    if(!safeMode.getSafeModeStatus()) { //Wenn der SafeMode nicht an ist, wird er eingeleitet
-                        countDown.startCountDown(5000,1000,exitSafeModeButton, timerText, progressBar, safeMode);
-                        Log.d("","Entering Safemode");
-                         //davor wurde aus der CountDown klasse der SafeModeStatus geupdatet, was fehlerhaft war jetzt aus der SafeMode klasse
-                        //Countdown wird gestartet und safeModeStatus auf true geupdatet onFinish
-                    }
-                    else if(safeMode.getSafeModeStatus()){
-                        countDown.cancelCountDown(progressBar, timerText); //Wenn der safemode an ist und der Button wieder gedrückt wird, bricht der emergency countdown wieder ab
-                    }
 
-                    Log.d("Debug", "Button pressed " + sosButtonPressed);
-                    Log.d("SafeMode Status", "safeMode = " + safeMode.getSafeModeStatus());
-
+                    // Startet Countdown, wenn SafeMode nicht aktiv ist
+                    if (!safeMode.getSafeModeStatus()) {
+                        countDown.startCountDown(5000, 1000, exitSafeModeButton, timerText, progressBar, safeMode);
+                        Log.d("", "Entering Safemode");
+                    }
+                    // Stoppt den Countdown, wenn SafeMode aktiv ist
+                    else {
+                        countDown.cancelCountDown(progressBar, timerText);
+                    }
                     break;
+
                 case MotionEvent.ACTION_UP:
                     sosButton.clearAnimation();
                     sosButtonPressed = false;
-                    if (!safeMode.getSafeModeStatus()) { //wenn der Countdown nicht zu ende geht und davor der Finger gehoben wird bricht der Countdown ab
+
+                    // Bricht Countdown ab oder startet den Notfall-Countdown
+                    if (!safeMode.getSafeModeStatus()) {
                         countDown.cancelCountDown(progressBar, timerText);
-
+                    } else {
+                        countDown.startEmergencyCountdown(5000, 1000, timerText, progressBar, safeMode, context);
                     }
-                    else if (safeMode.getSafeModeStatus()) { //Wenn der SafeMode an ist und der Button losgelassen wird, geht der emergency Countdown los.
-                            countDown.startEmergencyCountdown(5000, 1000, timerText, progressBar, safeMode, context);
-
-                        }
-
-
-                    v.performClick(); // Wichtig für Barrierefreiheit
-                        Log.d("Debug", "Button pressed " + sosButtonPressed);
-                        Log.d("SafeMode Status", "Safemode: "+ safeMode.getSafeModeStatus());
-
-
                     break;
             }
             return true;
         });
 
+        // Logik für den Exit-SafeMode-Button
         exitSafeModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 messageHandler = MessageHandler.getInstance(context);
                 messageHandler.stopSendingLocationUpdates();
-                Log.d("MainActivity", "SafeMode inaktiv: Standort-SMS-Versand gestoppt");
                 safeMode.exitSafeMode();
                 countDown.cancelCountDown(progressBar, timerText);
                 exitSafeModeButton.setVisibility(View.INVISIBLE);
-
-
             }
         });
-
-
     }
-
-
-        }
-
-
-
-
-
-
-
-
+}

@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+//Der Safemode stellt den Sicherheitsstatus des Nutzers dar. Hier wird sich um diesen gekümmert
 public class SafeMode {
     private static SafeMode instance;
 

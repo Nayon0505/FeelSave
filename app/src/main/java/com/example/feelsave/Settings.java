@@ -14,6 +14,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+
+//Die Einstellungsactivity dient hauptsächlich als Navigator
+
 public class Settings extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
@@ -44,11 +47,11 @@ public class Settings extends AppCompatActivity {
 
 
     public void launchEmergencyMessageActivity(View v){
-        Intent i = new Intent(this, eMessage.class);
+        Intent i = new Intent(this, EmergencyMessage.class);
         startActivity(i);
     }
     public void launchEmergencyContactsActivity(View v){
-        Intent i = new Intent(this, eContacts.class);
+        Intent i = new Intent(this, EmergencyContacts.class);
         startActivity(i);
     }
 

@@ -13,6 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+// Von hier aus Startet die App und hier geschieht alles
+
 public class MainActivity extends AppCompatActivity {
 
     private ButtonHandler buttonHandler;
@@ -35,51 +37,50 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Berechtigungen überprüfen
         permissionHelper = new PermissionHelper(this);
         permissionHelper.checkAndRequestForegroundPermissions();
 
+        // Initialisieren der Handler und Listener
         messageHandler = MessageHandler.getInstance(this);
         safeMode = safeMode.getInstance(this);
         locationListener = new LocationListener(this, this);
-        buttonHandler = new ButtonHandler(findViewById(R.id.sosButton), findViewById(R.id.timerText),
-                findViewById(R.id.progressBar), findViewById(R.id.exitSafeModeButton), safeMode, this);
+        buttonHandler = new ButtonHandler(findViewById(R.id.sosButton), findViewById(R.id.timerText), findViewById(R.id.progressBar), findViewById(R.id.exitSafeModeButton), safeMode, this);
         fireBaseHelper = new FireBaseHelper();
 
+        // Info-Button setzen
         Button infoButton = findViewById(R.id.infoButton);
         infoButton.setOnClickListener(v -> InfoDialogHelper.showAppInfo(MainActivity.this));
 
+        // Beobachtung des Sicherheitsmodus
         safeMode.getSafeModeLiveData().observe(this, isActive -> {
             if (isActive) {
-                locationListener.getLocation();
+                locationListener.getLocation();  // Standort-Updates starten
                 Log.d("MainActivity", "SafeMode aktiv: Standort-Updates gestartet");
-
-
             } else {
-                locationListener.stopLocationUpdates();
+                locationListener.stopLocationUpdates();  // Standort-Updates stoppen
                 Log.d("MainActivity", "SafeMode inaktiv: Standort-Updates gestoppt");
-
-
             }
         });
     }
 
-
-
+    // Startet die Einstellungen-Aktivität
     public void launchSettings(View v) {
         Intent i = new Intent(this, Settings.class);
         startActivity(i);
     }
 
+    // Bearbeitung der Berechtigungsanfragen
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+    // Stoppt Standort-Updates beim Zerstören der Aktivität
     @Override
     protected void onDestroy() {
         super.onDestroy();
         MessageHandler.getInstance(this).stopSendingLocationUpdates();
     }
-
-
 }

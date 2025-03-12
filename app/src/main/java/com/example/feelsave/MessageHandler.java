@@ -8,8 +8,6 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Task;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +23,11 @@ public class MessageHandler {
     private PendingIntent deliveryIntent;
     private Context context;
     private FireBaseHelper fireBaseHelper;
-    private List<contactModel> contactList;
+    private List<ContactModel> contactList;
     private List<LocationModel> locationList;
     private static final String DEFAULT_EMERGENCY_MESSAGE = "Ich benötige dringend Hilfe! Bitte komm sofort!";
 
-
+// Kümmert sich um alles was mit der Notfallnachricht zutun hat. Setzten, zusammenstellen mit Standort Kontakten, Verschicken etc.
     private MessageHandler(Context context) {
         this.context = context.getApplicationContext();
         this.phoneNumberList = new ArrayList<>();
@@ -67,7 +65,7 @@ public class MessageHandler {
         // Kontakte abrufen
         fireBaseHelper.fetchContacts().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<contactModel> contacts = task.getResult();
+                List<ContactModel> contacts = task.getResult();
                 contactList.clear();
                 if (contacts != null) {
                     contactList.addAll(contacts);
@@ -140,7 +138,7 @@ public class MessageHandler {
                 String fullMessage = messageText + "\n\nLetzter Standort: "
                         + lastLocation.getAdress() + "\nZeit: " + lastLocation.getTime();
 
-                for (contactModel contact : contactList) {
+                for (ContactModel contact : contactList) {
                     try {
                         smsManager.sendTextMessage(contact.getNumber(), scAddress, fullMessage, sentIntent, deliveryIntent);
                         Toast.makeText(context, "Nachricht gesendet!", Toast.LENGTH_SHORT).show();

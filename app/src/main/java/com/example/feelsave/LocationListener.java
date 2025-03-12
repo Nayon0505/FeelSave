@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+// Für das Standorttracking
 public class LocationListener {
 
     private final Context context;

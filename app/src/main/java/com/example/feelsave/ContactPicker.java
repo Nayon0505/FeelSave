@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 
+
+// Hiermit kann der Nutzer Kontakte aus seiner Kontaktliste auswählen und den Notfallkontakten hinzufügen
 public class ContactPicker {
 
     public static final int PICK_CONTACT_REQUEST = 1;
@@ -15,7 +17,7 @@ public class ContactPicker {
         activity.startActivityForResult(intent, PICK_CONTACT_REQUEST);
     }
 
-    public static contactModel getContactData(Intent data, Activity activity) {
+    public static ContactModel getContactData(Intent data, Activity activity) {
         Uri contactUri = data.getData();
         String name = "";
         String number = "";
@@ -35,6 +37,6 @@ public class ContactPicker {
             e.printStackTrace();
         }
 
-        return new contactModel(name, number, null);
+        return new ContactModel(name, number, null);
     }
 }

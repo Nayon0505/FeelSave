@@ -58,7 +58,6 @@
                 android:hint="@string/passwort"
                 android:inputType="textPassword"
                 android:padding="8dp"
-                android:textColor="@color/onBackground"
                 android:textColorHighlight="@color/cardview_dark_background" />
 
             <Button

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import java.util.ArrayList;
 import java.util.List;
 
+// Fragt die Berechtigungen ab
 public class PermissionHelper {
     private static final int FOREGROUND_PERMISSION_REQUEST_CODE = 100;
     private static final int BACKGROUND_PERMISSION_REQUEST_CODE = 101;

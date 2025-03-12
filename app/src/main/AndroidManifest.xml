@@ -29,8 +29,8 @@
 
         <!-- Activities -->
         <activity android:name=".MainActivity" android:exported="false" />
-        <activity android:name=".eContacts" android:exported="false" />
-        <activity android:name=".eMessage" android:exported="false" />
+        <activity android:name=".EmergencyContacts" android:exported="false" />
+        <activity android:name=".EmergencyMessage" android:exported="false" />
         <activity android:name=".Settings" android:exported="false" />
 
         <!-- User Authentication Activity -->

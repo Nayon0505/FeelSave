@@ -1,19 +1,15 @@
 package com.example.feelsave;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.ContactsContract;
+//Das Model für das Speichern von Kontakten
 
-public class contactModel {
+public class ContactModel {
 
         private String name;
         private String number;
         private String key;
 
 
-
-    public contactModel(String name, String number, String key) {
+    public ContactModel(String name, String number, String key) {
         this.name = name;
         this.number = number;
         this.key = key;

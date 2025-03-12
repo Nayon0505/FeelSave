@@ -8,17 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.feelsave.R;
-import com.example.feelsave.contactModel;
-
 import java.util.List;
 
-public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
 
-    private List<contactModel> contactList;
+// In der Notfallkontakte Acivity die Liste mit den Kontakten, setllt dies dar
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+
+    private List<ContactModel> contactList;
     private FireBaseHelper fireBaseHelper;
 
-    public recyclerAdapter(List<contactModel> contactList) {
+    public RecyclerAdapter(List<ContactModel> contactList) {
         this.contactList = contactList;
         this.fireBaseHelper = new FireBaseHelper();
 
@@ -46,7 +45,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        contactModel contact = contactList.get(position);
+        ContactModel contact = contactList.get(position);
         holder.textViewName.setText(contact.getName());
         holder.textViewPhone.setText(contact.getNumber());
 
