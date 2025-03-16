@@ -8,19 +8,17 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 /**
  * Diese Klasse verwaltet alle Countdowns der App:
  * 1. Countdown für den Übergang in den SafeMode, wenn der SOS-Button gehalten wird.
  * 2. Notfall-Countdown, der nach dem Loslassen des Buttons startet.
  */
-public class CountDown {
+public class CountDownHelper {
 
     private CountDownTimer countDownTimer;
     private final MessageHandler messageHandler;
 
-    public CountDown(Context context) {
+    public CountDownHelper(Context context) {
         messageHandler = MessageHandler.getInstance(context);
     }
 
@@ -34,7 +32,7 @@ public class CountDown {
             Button exitButton,
             TextView timerText,
             ProgressBar progressBar,
-            SafeMode safeMode
+            SafeModeModel safeModeModel
     ) {
         countDownTimer = new CountDownTimer(milliSecs, countDownInterval) {
             public void onTick(long millisUntilFinished) {
@@ -48,11 +46,11 @@ public class CountDown {
             @Override
             public void onFinish() {
                 // Aktiviert SafeMode, wenn er nicht bereits aktiv ist
-                if (!safeMode.getSafeModeStatus()) {
-                    handleSafeModeActivation(safeMode);
+                if (!safeModeModel.getSafeModeStatus()) {
+                    handleSafeModeActivation(safeModeModel);
                     exitButton.setVisibility(View.VISIBLE);
                     timerText.setText("Sie befinden sich im Safemode.");
-                    Log.d("CountDown", "SafeMode aktiviert: " + safeMode.getSafeModeStatus());
+                    Log.d("CountDown", "SafeMode aktiviert: " + safeModeModel.getSafeModeStatus());
                 }
             }
         }.start();
@@ -67,7 +65,7 @@ public class CountDown {
             int countDownInterval,
             TextView timerText,
             ProgressBar progressBar,
-            SafeMode safeMode,
+            SafeModeModel safeModeModel,
             Context context
     ) {
         countDownTimer = new CountDownTimer(milliSecs, countDownInterval) {
@@ -79,7 +77,7 @@ public class CountDown {
             @Override
             public void onFinish() {
                 // Sendet Notfallnachricht, wenn SafeMode noch aktiv ist
-                if (safeMode.getSafeModeStatus()) {
+                if (safeModeModel.getSafeModeStatus()) {
                     messageHandler.sendMessage();
                     messageHandler.startSendingLocationUpdates();
                     Log.d("Emergency Countdown", "Notfall ausgelöst: Standort-Updates und SMS gestartet");
@@ -91,8 +89,8 @@ public class CountDown {
     /**
      * Aktiviert den SafeMode und speichert den Status.
      */
-    public void handleSafeModeActivation(SafeMode safeMode) {
-        safeMode.enterSafeMode();
+    public void handleSafeModeActivation(SafeModeModel safeModeModel) {
+        safeModeModel.enterSafeMode();
         Log.d("SafeMode", "SafeMode aktiviert.");
     }
 

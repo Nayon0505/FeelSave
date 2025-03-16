@@ -8,7 +8,7 @@ import android.provider.ContactsContract;
 
 
 // Hiermit kann der Nutzer Kontakte aus seiner Kontaktliste auswählen und den Notfallkontakten hinzufügen
-public class ContactPicker {
+public class ContactPickerHelper {
 
     public static final int PICK_CONTACT_REQUEST = 1;
 

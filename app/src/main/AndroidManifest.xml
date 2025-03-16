@@ -30,11 +30,11 @@
         <!-- Activities -->
         <activity android:name=".MainActivity" android:exported="false" />
         <activity android:name=".EmergencyContacts" android:exported="false" />
-        <activity android:name=".EmergencyMessage" android:exported="false" />
-        <activity android:name=".Settings" android:exported="false" />
+        <activity android:name=".EmergencyMessageActivity" android:exported="false" />
+        <activity android:name=".SettingsActivity" android:exported="false" />
 
         <!-- User Authentication Activity -->
-        <activity android:name=".UserAuth" android:exported="true">
+        <activity android:name=".UserAuthActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

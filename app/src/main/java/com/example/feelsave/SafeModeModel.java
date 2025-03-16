@@ -7,14 +7,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 //Der Safemode stellt den Sicherheitsstatus des Nutzers dar. Hier wird sich um diesen gekümmert
-public class SafeMode {
-    private static SafeMode instance;
+public class SafeModeModel {
+    private static SafeModeModel instance;
 
 
 
     private final MutableLiveData<Boolean> safeModeStatus = new MutableLiveData<>(false);
 
-    public SafeMode(Context context){
+    public SafeModeModel(Context context){
 
     }
     public boolean enterSafeMode(){
@@ -36,9 +36,9 @@ public class SafeMode {
     public LiveData<Boolean> getSafeModeLiveData() {
         return safeModeStatus;
     }
-    public static synchronized SafeMode getInstance(Context context) {
+    public static synchronized SafeModeModel getInstance(Context context) {
         if (instance == null) {
-            instance = new SafeMode(context);
+            instance = new SafeModeModel(context);
         }
         return instance;
     }

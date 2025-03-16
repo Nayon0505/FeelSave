@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 // Für das Standorttracking
-public class LocationListener {
+public class LocationTracker {
 
     private final Context context;
     private final Activity activity;
@@ -29,7 +29,7 @@ public class LocationListener {
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
 
-    public LocationListener(Context context, Activity activity) {
+    public LocationTracker(Context context, Activity activity) {
         this.context = context;
         this.activity = activity;
         this.locationsList = new ArrayList<>();

@@ -19,7 +19,7 @@ public class ButtonHandler {
     private final Button button;
     private Boolean sosButtonPressed = false;
     private final TextView timerText;
-    private final CountDown countDown;
+    private final CountDownHelper countDownHelper;
     private MessageHandler messageHandler;
 
     /**
@@ -31,10 +31,10 @@ public class ButtonHandler {
             TextView timerText,
             ProgressBar progressBar,
             Button exitSafeModeButton,
-            SafeMode safeMode,
+            SafeModeModel safeModeModel,
             Context context
     ) {
-        this.countDown = new CountDown(context);
+        this.countDownHelper = new CountDownHelper(context);
         this.button = sosButton;
         this.timerText = timerText;
         Animation pulse = AnimationUtils.loadAnimation(context, R.anim.pulse);
@@ -47,13 +47,13 @@ public class ButtonHandler {
                     sosButtonPressed = true;
 
                     // Startet Countdown, wenn SafeMode nicht aktiv ist
-                    if (!safeMode.getSafeModeStatus()) {
-                        countDown.startCountDown(5000, 1000, exitSafeModeButton, timerText, progressBar, safeMode);
+                    if (!safeModeModel.getSafeModeStatus()) {
+                        countDownHelper.startCountDown(5000, 1000, exitSafeModeButton, timerText, progressBar, safeModeModel);
                         Log.d("", "Entering Safemode");
                     }
                     // Stoppt den Countdown, wenn SafeMode aktiv ist
                     else {
-                        countDown.cancelCountDown(progressBar, timerText);
+                        countDownHelper.cancelCountDown(progressBar, timerText);
                     }
                     break;
 
@@ -62,10 +62,10 @@ public class ButtonHandler {
                     sosButtonPressed = false;
 
                     // Bricht Countdown ab oder startet den Notfall-Countdown
-                    if (!safeMode.getSafeModeStatus()) {
-                        countDown.cancelCountDown(progressBar, timerText);
+                    if (!safeModeModel.getSafeModeStatus()) {
+                        countDownHelper.cancelCountDown(progressBar, timerText);
                     } else {
-                        countDown.startEmergencyCountdown(5000, 1000, timerText, progressBar, safeMode, context);
+                        countDownHelper.startEmergencyCountdown(5000, 1000, timerText, progressBar, safeModeModel, context);
                     }
                     break;
             }
@@ -78,8 +78,8 @@ public class ButtonHandler {
             public void onClick(View v) {
                 messageHandler = MessageHandler.getInstance(context);
                 messageHandler.stopSendingLocationUpdates();
-                safeMode.exitSafeMode();
-                countDown.cancelCountDown(progressBar, timerText);
+                safeModeModel.exitSafeMode();
+                countDownHelper.cancelCountDown(progressBar, timerText);
                 exitSafeModeButton.setVisibility(View.INVISIBLE);
             }
         });

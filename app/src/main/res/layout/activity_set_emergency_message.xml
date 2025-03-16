@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:contentDescription="@string/app_name"
     android:layout_marginTop="16dp"
-    tools:context=".EmergencyMessage">
+    tools:context=".EmergencyMessageActivity">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/backButton"

@@ -2,7 +2,6 @@ package com.example.feelsave;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,7 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 //Login und Register Activity, hier werden Nutzer angemeldet, registriert oder abgemeldet
 
-public class UserAuth extends AppCompatActivity {
+public class UserAuthActivity extends AppCompatActivity {
 
     private EditText emailInput, passwordInput;
     private Button registerButton, loginButton, logoutButton;

@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 //Die Einstellungsactivity dient hauptsächlich als Navigator
 
-public class Settings extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -39,7 +39,7 @@ public class Settings extends AppCompatActivity {
         firebaseAuth.signOut();
         Toast.makeText(this, "Abgemeldet", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(Settings.this, UserAuth.class);
+        Intent intent = new Intent(SettingsActivity.this, UserAuthActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Beendet alle vorherigen Aktivitäten
         startActivity(intent);
         finish(); // Beendet die aktuelle Activity
@@ -47,7 +47,7 @@ public class Settings extends AppCompatActivity {
 
 
     public void launchEmergencyMessageActivity(View v){
-        Intent i = new Intent(this, EmergencyMessage.class);
+        Intent i = new Intent(this, EmergencyMessageActivity.class);
         startActivity(i);
     }
     public void launchEmergencyContactsActivity(View v){

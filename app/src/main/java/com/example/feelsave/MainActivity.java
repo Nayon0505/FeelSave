@@ -18,9 +18,9 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
 
     private ButtonHandler buttonHandler;
-    private SafeMode safeMode;
-    private CountDown countDown;
-    private LocationListener locationListener;
+    private SafeModeModel safeModeModel;
+    private CountDownHelper countDownHelper;
+    private LocationTracker locationTracker;
     private FireBaseHelper fireBaseHelper;
     private TextView emergencyMessageText;
     private MessageHandler messageHandler;
@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialisieren der Handler und Listener
         messageHandler = MessageHandler.getInstance(this);
-        safeMode = safeMode.getInstance(this);
-        locationListener = new LocationListener(this, this);
-        buttonHandler = new ButtonHandler(findViewById(R.id.sosButton), findViewById(R.id.timerText), findViewById(R.id.progressBar), findViewById(R.id.exitSafeModeButton), safeMode, this);
+        safeModeModel = safeModeModel.getInstance(this);
+        locationTracker = new LocationTracker(this, this);
+        buttonHandler = new ButtonHandler(findViewById(R.id.sosButton), findViewById(R.id.timerText), findViewById(R.id.progressBar), findViewById(R.id.exitSafeModeButton), safeModeModel, this);
         fireBaseHelper = new FireBaseHelper();
 
         // Info-Button setzen
@@ -53,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
         infoButton.setOnClickListener(v -> InfoDialogHelper.showAppInfo(MainActivity.this));
 
         // Beobachtung des Sicherheitsmodus
-        safeMode.getSafeModeLiveData().observe(this, isActive -> {
+        safeModeModel.getSafeModeLiveData().observe(this, isActive -> {
             if (isActive) {
-                locationListener.getLocation();  // Standort-Updates starten
+                locationTracker.getLocation();  // Standort-Updates starten
                 Log.d("MainActivity", "SafeMode aktiv: Standort-Updates gestartet");
             } else {
-                locationListener.stopLocationUpdates();  // Standort-Updates stoppen
+                locationTracker.stopLocationUpdates();  // Standort-Updates stoppen
                 Log.d("MainActivity", "SafeMode inaktiv: Standort-Updates gestoppt");
             }
         });
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Startet die Einstellungen-Aktivität
     public void launchSettings(View v) {
-        Intent i = new Intent(this, Settings.class);
+        Intent i = new Intent(this, SettingsActivity.class);
         startActivity(i);
     }
 

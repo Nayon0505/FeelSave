@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
  * Diese Activity ermöglicht dem Nutzer das Bearbeiten seiner Notfallnachricht.
  * Die Nachricht wird in Firebase gespeichert und über den MessageHandler verwaltet.
  */
-public class EmergencyMessage extends AppCompatActivity {
+public class EmergencyMessageActivity extends AppCompatActivity {
 
     private MessageHandler messageHandler;
     private String emergencyMessage;

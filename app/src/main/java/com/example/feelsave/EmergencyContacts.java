@@ -64,7 +64,7 @@ public class EmergencyContacts extends AppCompatActivity {
 
         // Öffnet den Kontakt-Picker, um einen Kontakt aus den gespeicherten Kontakten auszuwählen
         selectContactButton.setOnClickListener(v -> {
-            ContactPicker.pickContact(this);
+            ContactPickerHelper.pickContact(this);
         });
 
         // Lädt bereits gespeicherte Notfallkontakte aus der Firebase-Datenbank
@@ -87,9 +87,9 @@ public class EmergencyContacts extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ContactPicker.PICK_CONTACT_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == ContactPickerHelper.PICK_CONTACT_REQUEST && resultCode == Activity.RESULT_OK) {
             // Holt den ausgewählten Kontakt aus dem Intent und fügt ihn der Liste hinzu
-            ContactModel contact = ContactPicker.getContactData(data, this);
+            ContactModel contact = ContactPickerHelper.getContactData(data, this);
             prepareContact(contact.getName(), contact.getNumber());
             Log.d("eContacts", "Selected contact: " + contact.getName() + " - " + contact.getNumber());
         }
