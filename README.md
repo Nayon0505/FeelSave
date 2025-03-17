@@ -7,6 +7,4 @@
 
 ## Ablaufdiagramm
 
-[FeelSaveAblaufdiagramm.drawio](./FeelSaveAblaufdiagramm.drawio)
-
 ![Ablaufdiagramm](./FeelsaveAblaufdiagramm.drawio.png)
